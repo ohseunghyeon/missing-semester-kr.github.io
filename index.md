@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 여러분의 CS 교과과정에서 빠진 학기
+title: 여러분의 CS 교과과정의 Missing Semester
 ---
 
 CS 교과과정은 운영체제에서 기계학습에 이르기까지 CS 내의 고급 주제에 대해 모두 가르쳐 주지만, 거의 다루지 않는 중요한 한 가지 과목이 있으며, 대신 학생들이 스스로 알아내야 하는 도구 숙련도가 있다. 우리는 당신에게 command line을 마스터하는 방법, 강력한 text editor 사용, version control system의 화려한 기능 사용 방법 등을 가르쳐 줄 것입니다!
