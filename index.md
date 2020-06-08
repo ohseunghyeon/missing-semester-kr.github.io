@@ -76,7 +76,7 @@ Sign up for the IAP 2020 class by filling out this [registration form](https://f
 ---
 
 <div class="small center">
-<p><a href="https://github.com/missing-semester/missing-semester">Source code</a>.</p>
-<p>Licensed under CC BY-NC-SA.</p>
-<p>See <a href="/license/">here</a> for contribution &amp; translation guidelines.</p>
+<p><a href="https://github.com/missing-semester/missing-semester">원본 코드</a>.</p>
+<p>CC BY-NC-SA에 따라 라이센스를 부여합니다</p>
+<p>기여 &amp; 번역 지침은 <a href="/license/">여기</a>를 참조하세요.</p>
 </div>
