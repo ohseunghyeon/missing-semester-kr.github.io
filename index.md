@@ -59,6 +59,7 @@ Sign up for the IAP 2020 class by filling out this [registration form](https://f
 
 # 번역
 
+- [English: https://missing.csail.mit.edu/](https://missing.csail.mit.edu/)
 - [中文: missing-semester-cn.github.io](https://missing-semester-cn.github.io/)
 - [Türk: missing-semester-tr.github.io](https://missing-semester-tr.github.io/)
 - [한국어: missing-semester-kr.github.io](https://missing-semester-kr.github.io/)
