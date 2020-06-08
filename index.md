@@ -39,7 +39,7 @@ Sign up for the IAP 2020 class by filling out this [registration form](https://f
 {% endfor %}
 </ul>
 
-녹화된 강의 영상은 [YouTube](https://www.youtube.com/playlist?list=PLyzOVJj3bHQuloKGG59rS43e29ro7I57J)에서 볼 수 있습니다.
+녹화된 수업 영상은 [YouTube](https://www.youtube.com/playlist?list=PLyzOVJj3bHQuloKGG59rS43e29ro7I57J)에서 볼 수 있습니다.
 
 # 수업 내용
 
@@ -71,7 +71,7 @@ Sign up for the IAP 2020 class by filling out this [registration form](https://f
 
 ## Acknowledgements
 
-이 강의의 비디오를 녹화할 수 있게 도와준 Elaine Mello, Jim Cain, [MIT Open Learning](https://openlearning.mit.edu/); A/V 장비에 도움을 준 Anthony Zolnik과 [MIT AeroAstro](https://aeroastro.mit.edu/); 그리고 이 수업을 지지해 주신 Brandi Adams와 [MIT EECS](https://www.eecs.mit.edu/)에 감사드립니다.
+이 수업의 비디오를 녹화할 수 있게 도와준 Elaine Mello, Jim Cain, [MIT Open Learning](https://openlearning.mit.edu/); A/V 장비에 도움을 준 Anthony Zolnik과 [MIT AeroAstro](https://aeroastro.mit.edu/); 그리고 이 수업을 지지해 주신 Brandi Adams와 [MIT EECS](https://www.eecs.mit.edu/)에 감사드립니다.
 
 ---
 
