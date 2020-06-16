@@ -8,24 +8,32 @@ video:
   id: e8BO_dYxk5c
 ---
 
-In this lecture we will go through several ways in which you can improve your workflow when using the shell. We have been working with the shell for a while now, but we have mainly focused on executing different commands. We will now see how to run several processes at the same time while keeping track of them, how to stop or pause a specific process and how to make a process run in the background.
+이 강의에서는 shell을 사용할 때 워크플로우를 개선할 수 있는 몇 가지 방법을 살펴볼 것입니다. 
+그동안 우리는 shell을 사용해왔지만, 주로 다른 명령을 실행했습니다. 
+이제 여러 프로세스를 추적하면서 동시에 실행하는 방법, 특정 프로세스를 중지하거나 일시 중지하는 방법, 프로세스가 백그라운드에서 실행되도록 하는 방법 등을 살펴보겠습니다.
 
-We will also learn about different ways to improve your shell and other tools, by defining aliases and configuring them using dotfiles. Both of these can help you save time, e.g. by using the same configurations in all your machines without having to type long commands. We will look at how to work with remote machines using SSH.
+우리는 또한 별칭을 정의하고 dotfile을 사용하여 설정함으로써 여러분의 shell과 다른 도구들을 향상시키는 다른 방법에 대해서도 배울 것입니다. 
+이 두 가지 모두 긴 명령을 입력할 필요 없이 모든 시스템에서 동일한 구성을 사용하여 시간을 절약할 수 있습니다. 
+우리는 SSH를 이용하여 어떻게 원격 서버에서 작업을 하는지에 대해 알아볼 것입니다.
 
 
-# Job Control
+# 작업 제어
 
-In some cases you will need to interrupt a job while it is executing, for instance if a command is taking too long to complete (such as a `find` with a very large directory structure to search through).
-Most of the time, you can do `Ctrl-C` and the command will stop.
-But how does this actually work and why does it sometimes fail to stop the process?
+예를 들어 명령이 완료되는 데 시간이 너무 오래 걸리는 경우(예컨데 `find`를 사용하여 매우 큰 디렉토리 구조를 검색)와 
+같이 작업이 실행 중일 때 중단해야 하는 경우가 있습니다.
+대부분 경우 `Ctrl-C`를 하게 되면 명령이 중단됩니다.
+하지만 이것이 실제로 어떻게 작동하고, 왜 때때로 프로세스를 멈추는데 실패할까요?
 
-## Killing a process
+## 프로세스 제거하기
 
-Your shell is using a UNIX communication mechanism called a _signal_ to communicate information to the process. When a process receives a signal it stops its execution, deals with the signal and potentially changes the flow of execution based on the information that the signal delivered. For this reason, signals are _software interrupts_.
+당신의 shell은 _신호_ 라고 불리는 UNIX 통신 메커니즘을 사용하여 정보를 프로세스에 전달하고 있습니다. 
+프로세스가 실행을 중지하는 신호를 수신하면 해당 신호를 처리하고, 신호가 전달한 정보를 기반으로 실행 흐름을 잠재적으로 변화시킵니다. 
+따라서 신호는 _소프트웨어 중단_ 입니다.
 
-In our case, when typing `Ctrl-C` this prompts the shell to deliver a `SIGINT` signal to the process.
+`Ctrl-C`를 입력하면 shell이 `SIGINT` 신호를 프로세스에 전달합니다.
 
-Here's a minimal example of a Python program that captures `SIGINT` and ignores it, no longer stopping. To kill this program we can now use the `SIGQUIT` signal instead, by typing `Ctrl-\`.
+다음은 `SIGINT`를 캡처하여 무시하고 더 이상 멈추지 않는 파이썬 프로그램의 작은 예제 입니다. 
+이 프로그램을 제거하려면 `Ctrl-\`를 입력하여 `SIGQ` 신호를 보냅니다.
 
 ```python
 #!/usr/bin/env python
@@ -42,9 +50,10 @@ while True:
     i += 1
 ```
 
-Here's what happens if we send `SIGINT` twice to this program, followed by `SIGQUIT`. Note that `^` is how `Ctrl` is displayed when typed in the terminal.
+이 프로그램에 두 번의 `SIGINT`를 보내고, 그 다음에 `SIGQUIT`를 보내면 다음과 같은 일이 일어납니다. 
+`^`는 termial에 입력할 때 `Ctrl`이 표시되는 방식입니다.
 
-```
+```bash
 $ python sigint.py
 24^C
 I got a SIGINT, but I am not stopping
@@ -53,29 +62,33 @@ I got a SIGINT, but I am not stopping
 30^\[1]    39913 quit       python sigint.py
 ```
 
-While `SIGINT` and `SIGQUIT` are both usually associated with terminal related requests, a more generic signal for asking a process to exit gracefully is the `SIGTERM` signal.
-To send this signal we can use the [`kill`](https://www.man7.org/linux/man-pages/man1/kill.1.html) command, with the syntax `kill -TERM <PID>`.
+`SIGINT`와 `SIGQ`는 보통 터미널 관련 요청과 관련되어 있는 반면, 보다 멋있게 종료하는 과정을 요청하는 일반적인 신호는 `SIGTERM` 신호입니다.
+이 신호를 보내기 위해 [`kill`](https://www.man7.org/linux/man-pages/man1/kill.1.html) 명령을 `kill -TERM <PID>`라는 구문과 함께 사용할 수 있습니다.
 
-## Pausing and backgrounding processes
+## 프로세스의 일시 중지와 백그라운드
 
-Signals can do other things beyond killing a process. For instance, `SIGSTOP` pauses a process. In the terminal, typing `Ctrl-Z` will prompt the shell to send a `SIGTSTP` signal, short for Terminal Stop (i.e. the terminal's version of `SIGSTOP`).
+신호는 프로세스를 제거하는 것 이상의 다른 일들을 할 수 있습니다. 
+예를 들어 `SIGSTOP`은 프로세스를 일시 중지시킵니다. 
+터미널에서 `Ctrl-Z`를 입력하면 shell이 Terminal Stop(터미널 버전 `SIGSTOP`)을 줄인 `SIGTSTP` 신호를 보냅니다.
 
-We can then continue the paused job in the foreground or in the background using [`fg`](https://www.man7.org/linux/man-pages/man1/fg.1p.html) or [`bg`](http://man7.org/linux/man-pages/man1/bg.1p.html), respectively.
+그 다음 각각 [`fg`](https://www.man7.org/linux/man-pages/man1/fg.1p.html) 또는 [`bg`](http://man7.org/linux/man-pages/man1/bg.1p.html),)를 사용하여 포어그라운드 또는 백그라운드에서 일시 중지된 작업을 계속할 수 있습니다.
 
-The [`jobs`](https://www.man7.org/linux/man-pages/man1/jobs.1p.html) command lists the unfinished jobs associated with the current terminal session.
-You can refer to those jobs using their pid (you can use [`pgrep`](https://www.man7.org/linux/man-pages/man1/pgrep.1.html) to find that out).
-More intuitively, you can also refer to a process using the percent symbol followed by its job number (displayed by `jobs`). To refer to the last backgrounded job you can use the `$!` special parameter.
+[`jobs`](https://www.man7.org/linux/man-pages/man1/jobs.1p.html) 명령어에는 현재 터미널 세션과 관련된 미완료 작업 목록을 보여줍니다. 
+목록의 pid([`pgrep`](https://www.man7.org/linux/man-pages/man1/pgrep.1.html) 사용)를 이용하여 해당 작업을 참조할 수 있습니다.
+보다 직관적으로 작업 번호(`jobs`로 보여지는) 다음에 해당하는 % 기호를 사용하는 프로세스도 참조할 수 있습니다. 
+마지막 백그라운드 작업을 참조하려면 특수 매개 변수 `$!`를 사용하면 됩니다.
 
-One more thing to know is that the `&` suffix in a command will run the command in the background, giving you the prompt back, although it will still use the shell's STDOUT which can be annoying (use shell redirections in that case).
+한 가지 더 알아야 할 것은 명령어의 `&` 접미사가 명령을 백그라운드에서 실행해 귀찮을 수 있는 쉘의 `STDOUT`를 여전히 사용하지만(이 경우 쉘 재조정을 사용) 프롬프트를 다시 제공한다는 점입니다.
 
-To background an already running program you can do `Ctrl-Z` followed by `bg`.
-Note that backgrounded processes are still children processes of your terminal and will die if you close the terminal (this will send yet another signal, `SIGHUP`).
-To prevent that from happening you can run the program with [`nohup`](https://www.man7.org/linux/man-pages/man1/nohup.1.html) (a wrapper to ignore `SIGHUP`), or use `disown` if the process has already been started.
-Alternatively, you can use a terminal multiplexer as we will see in the next section.
+이미 실행 중인 프로그램을 백그라운드 실행으로 변경하려면 `Ctrl-Z`에 이어 `bg`를 실행하면 됩니다.
+백그라운드 프로세스는 여전히 터미널의 하위 프로세스로서 터미널을 닫으면 죽는다는 점에 유의하세요 (또 다른 신호인 `SIGHUP`를 전송). 
+그런 일이 일어나는 것을 방지하기 위해 [`nohup`](https://www.man7.org/linux/man-pages/man1/nohup.1.html) (`SIGHUP`를 무시하는 wrapper) 
+으로 프로그램을 실행하거나 프로세스가 이미 시작되었다면 `disown`을 사용합니다.
+대안으로 다음 섹션에서 볼 수 있듯이 터미널 멀티플렉서를 사용할 수 있습니다.
 
-Below is a sample session to showcase some of these concepts.
+아래는 이러한 개념들 중 몇 가지를 소개하기 위한 예제입니다.
 
-```
+```bash
 $ sleep 1000
 ^Z
 [1]  + 18653 suspended  sleep 1000
@@ -120,98 +133,104 @@ $ jobs
 
 ```
 
-A special signal is `SIGKILL` since it cannot be captured by the process and it will always terminate it immediately. However, it can have bad side effects such as leaving orphaned children processes.
+특수신호는 프로세스를 캡처할 수 없고 항상 즉시 종료되기 때문에 `SIGKILL`입니다. 
+하지만 고아가 된 하위 프로세스를 방치하는 등의 부작용을 낳을 수 있습니다.
 
-You can learn more about these and other signals [here](https://en.wikipedia.org/wiki/Signal_(IPC)) or typing [`man signal`](https://www.man7.org/linux/man-pages/man7/signal.7.html) or `kill -t`.
+이것과 다른 신호에 대해 자세히 알아보려면 [`여기`](https://en.wikipedia.org/wiki/Signal_(IPC)) 또는 [`man signal`](https://www.man7.org/linux/man-pages/man7/signal.7.html)을 입력 또는 `kill -t`를 입력하세요.
 
 
-# Terminal Multiplexers
+# 터미널 멀티플렉서
 
-When using the command line interface you will often want to run more than one thing at once.
-For instance, you might want to run your editor and your program side by side.
-Although this can be achieved by opening new terminal windows, using a terminal multiplexer is a more versatile solution.
+커맨드라인 인터페이스를 사용할 때 한 번에 두 개 이상의 작업을 실행하는 경우가 많을 겁니다.
+예를 들어, 에디터와 프로그램을 나란히 실행하길 원한다고 합시다.
+새로운 터미널 창을 열면 가능하겠지만 터미널 멀티플렉서를 사용하는 것이 더 다재다능한 해결방법 입니다.
 
-Terminal multiplexers like [`tmux`](https://www.man7.org/linux/man-pages/man1/tmux.1.html) allow you to multiplex terminal windows using panes and tabs so you can interact with multiple shell sessions.
-Moreover, terminal multiplexers let you detach a current terminal session and reattach at some point later in time.
-This can make your workflow much better when working with remote machines since it voids the need to use `nohup` and similar tricks.
+[`tmux`](https://www.man7.org/linux/man-pages/man1/tmux.1.html)와 같은 터미널 멀티플렉서는 창과 탭을 사용하여 
+터미널 창을 동시에 실행가능하게 분할할 수 있어 여러 shell 세션과 상호 작용이 가능합니다.
+또한 터미널 멀티플렉서는 현재의 터미널 세션을 빠져나왔다가 나중에 다시 연결할 수 있습니다.
+이는 `nohup`과 유사한 트릭을 사용할 필요가 없기 때문에 원격 컴퓨터로 작업할 때 워크플로우를 훨씬 더 좋게 만들 수 있습니다.
 
-The most popular terminal multiplexer these days is [`tmux`](https://www.man7.org/linux/man-pages/man1/tmux.1.html). `tmux` is highly configurable and by using the associated keybindings you can create multiple tabs and panes and quickly navigate through them.
+요즘 가장 인기 있는 터미널 멀티플렉서는 [`tmux`](https://www.man7.org/linux/man-pages/man1/tmux.1.html) 입니다. 
+`tmux`는 환경 관리 설정이 뛰어나며 관련된 키 바인딩을 사용하여 여러 탭과 창을 만들고 빠르게 탐색할 수 있습니다.
 
-`tmux` expects you to know its keybindings, and they all have the form `<C-b> x` where that means (1) press `Ctrl+b`, (2) release `Ctrl+b`, and then (3) press `x`. `tmux` has the following hierarchy of objects:
-- **Sessions** - a session is an independent workspace with one or more windows
-    + `tmux` starts a new session.
-    + `tmux new -s NAME` starts it with that name.
-    + `tmux ls` lists the current sessions
-    + Within `tmux` typing `<C-b> d`  detaches the current session
-    + `tmux a` attaches the last session. You can use `-t` flag to specify which
+`tmux`는 키 바인딩을 알고 싶어하는데 (1) `Ctrl+b` 키보드를 누르고, (2) `Ctrl+b` 키보드를 놓은 후, 
+(3) `x`를 누르는 `<C-b> x` 형식을 갖고 있습니다. 
+`tmux`는 다음과 같은 개체 계층을 가지고 있습니다:
+- **Sessions** - 세션은 하나 이상의 윈도우가 있는 독립된 작업 공간
+    + `tmux` 새로운 세션 시작
+    + `tmux new -s NAME` 세션 이름과 함께 새로운 세션 시작
+    + `tmux ls` 현재 세션 목록 나열
+    + `tmux` 실행 중 `<C-b> d`를 입력  현재 세션에서 빠져나오기
+    + `tmux a` 마지막 세션으로 들어가기. `-t` 옵션을 써서 특정 세션으로 접속 가능
 
-- **Windows** - Equivalent to tabs in editors or browsers, they are visually separate parts of the same session
-    + `<C-b> c` Creates a new window. To close it you can just terminate the shells doing `<C-d>`
-    + `<C-b> N` Go to the _N_ th window. Note they are numbered
-    + `<C-b> p` Goes to the previous window
-    + `<C-b> n` Goes to the next window
-    + `<C-b> ,` Rename the current window
-    + `<C-b> w` List current windows
+- **Windows** - 에디터 또는 브라우저의 탭과 동일하게 동일한 세션에서 시각적으로 분리된 부분
+    + `<C-b> c` 새로운 윈도우를 생성. `<C-d>`를 입력하면 윈도우 닫기
+    + `<C-b> N` _N_ 번째 윈도우로 이동. 윈도우마다 번호가 있음을 유의
+    + `<C-b> p` 이전 윈도우로 이동
+    + `<C-b> n` 다음 윈도우로 이동
+    + `<C-b> ,` 현재 윈도우 이름 바꾸기
+    + `<C-b> w` 현재 윈도우 목록 나열
 
-- **Panes** - Like vim splits, panes let you have multiple shells in the same visual display.
-    + `<C-b> "` Split the current pane horizontally
-    + `<C-b> %` Split the current pane vertically
-    + `<C-b> <direction>` Move to the pane in the specified _direction_. Direction here means arrow keys.
-    + `<C-b> z` Toggle zoom for the current pane
-    + `<C-b> [` Start scrollback. You can then press `<space>` to start a selection and `<enter>` to copy that selection.
-    + `<C-b> <space>` Cycle through pane arrangements.
+- **Panes** - vim 분할처럼 창은 동일한 시각 디스플레이에 여러 개의 shell을 가질 수 있음
+    + `<C-b> "` 현재 창을 가로로 나누기
+    + `<C-b> %` 현재 창을 세로로 나누기
+    + `<C-b> <direction>` _direction_ 방향의 창으로 이동. 여기서 Direction은 화살표 키를 의미
+    + `<C-b> z` 현재 창의 확대/축소 전환
+    + `<C-b> [` scrollback 시작. `<space>`를 누르면 선택을 시작하고 `<enter>`를 누르면 선택 내용이 복사
+    + `<C-b> <space>` 창 배열을 순환
 
-For further reading,
-[here](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) is a quick tutorial on `tmux` and [this](http://linuxcommand.org/lc3_adv_termmux.php) has a more detailed explanation that covers the original `screen` command. You might also want to familiarize yourself with [`screen`](https://www.man7.org/linux/man-pages/man1/screen.1.html), since it comes installed in most UNIX systems.
+추가적인 자료는 [`여기`](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/)에 `tmux`에 대한 간단한 튜토리얼이 있고, 
+[여기](http://linuxcommand.org/lc3_adv_termmux.php)에는 원래의 `screen` 명령을 다루는 보다 자세한 설명이 있습니다. 
+대부분의 UNIX 시스템에 설치되므로 [`screen`](https://www.man7.org/linux/man-pages/man1/screen.1.html)을 숙지하는 것이 좋을 것입니다.
 
-# Aliases
+# 별칭
 
-It can become tiresome typing long commands that involve many flags or verbose options.
-For this reason, most shells support _aliasing_.
-A shell alias is a short form for another command that your shell will replace automatically for you.
-For instance, an alias in bash has the following structure:
+많고 장황한 옵션을 포함하는 긴 명령을 입력하는 것은 지루한 일입니다.
+그런 이유로 대부분의 shell은 _별칭 지정_ 을 지원합니다.
+별칭은 shell이 자동으로 대체할 수 있는 다른 명령을 위한 짧은 형식입니다.
+예를 들어 bash의 별칭은 다음과 같은 구조를 가지고 있습니다.
 
 ```bash
 alias alias_name="command_to_alias arg1 arg2"
 ```
 
-Note that there is no space around the equal sign `=`, because [`alias`](https://www.man7.org/linux/man-pages/man1/alias.1p.html) is a shell command that takes a single argument.
+[`alias`](https://www.man7.org/linux/man-pages/man1/alias.1p.html)는 하나의 argument를 취하는 shell 명령이기 때문에 등호 `=` 주위에 빈 공간이 없다는 점을 유의하세요.
 
-Aliases have many convenient features:
+별칭은 많은 편리한 기능을 가지고 있습니다:
 
 ```bash
-# Make shorthands for common flags
+# 일반적인 플래그의 짧은 명령어 만들기
 alias ll="ls -lh"
 
-# Save a lot of typing for common commands
+# 평소에 자주 사용하는 명령어 저장하기
 alias gs="git status"
 alias gc="git commit"
 alias v="vim"
 
-# Save you from mistyping
+# 오타 방지
 alias sl=ls
 
-# Overwrite existing commands for better defaults
-alias mv="mv -i"           # -i prompts before overwrite
-alias mkdir="mkdir -p"     # -p make parent dirs as needed
-alias df="df -h"           # -h prints human readable format
+# 더 좋은 기본값을 위해 기존 명령어 덮어쓰기
+alias mv="mv -i"           # -i 지정 위치에 동일 파일이 있을 경우 덮어 쓸때 물어봄
+alias mkdir="mkdir -p"     # -p 상위 디렉토리가 필요하다면 만들기
+alias df="df -h"           # -h 사람이 읽을 수 있는 형식으로 출력
 
-# Alias can be composed
+# 별칭을 시용하여 별칭을 구성
 alias la="ls -A"
 alias lla="la -l"
 
-# To ignore an alias run it prepended with \
+# 앞에 \가 붙은 상태로 별칭 실행하면 빌칭 실행 무시
 \ls
-# Or disable an alias altogether with unalias
+# 또는 unalieas를 사용하여 별칭 사용불가
 unalias la
 
-# To get an alias definition just call it with alias
+# 별칭 정의를 얻기으려면 별칭을 호출
 alias ll
-# Will print ll='ls -lh'
+# ll='ls -lh' 이 출력됨
 ```
 
-Note that aliases do not persist shell sessions by default.
-To make an alias persistent you need to include it in shell startup files, like `.bashrc` or `.zshrc`, which we are going to introduce in the next section.
+별칭은 기본적으로 shell 세션을 유지하지 않는다는 점을 알아두세요.
+별칭을 영구적으로 만들려면 다음 절에서 소개할 `.bashrc`나 `.zshrc`와 같은 shell 시작 파일에 포함시켜야 합니다.
 
 
 # Dotfiles
