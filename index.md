@@ -60,17 +60,6 @@ Sign up for the IAP 2020 class by filling out this [registration form](https://f
  - [Twitter](https://twitter.com/jonhoo/status/1224383452591509507)
  - [YouTube](https://www.youtube.com/playlist?list=PLyzOVJj3bHQuloKGG59rS43e29ro7I57J)
 
-# 번역
-
-- [English: https://missing.csail.mit.edu/](https://missing.csail.mit.edu/)
-- [中文: missing-semester-cn.github.io](https://missing-semester-cn.github.io/)
-- [Türk: missing-semester-tr.github.io](https://missing-semester-tr.github.io/)
-- [한국어: missing-semester-kr.github.io](https://missing-semester-kr.github.io/)
-
-참고: 이 링크는 커뮤니티 번역에 대한 외부 링크 입니다. 번역에 대해 따로 심사하지 않았습니다.
-
-이 수업의 코스 노트를 번역했나요? 그렇다면 목록에 추가할 수 있도록 [PR](https://github.com/missing-semester/missing-semester/pulls)을 제출해주세요!
-
 
 ## Acknowledgements
 
