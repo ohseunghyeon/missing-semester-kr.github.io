@@ -8,30 +8,17 @@ video:
   id: 2sjqTHE0zok
 ---
 
-Version control systems (VCSs) are tools used to track changes to source code
-(or other collections of files and folders). As the name implies, these tools
-help maintain a history of changes; furthermore, they facilitate collaboration.
-VCSs track changes to a folder and its contents in a series of snapshots, where
-each snapshot encapsulates the entire state of files/folders within a top-level
-directory. VCSs also maintain metadata like who created each snapshot, messages
-associated with each snapshot, and so on.
+버전관리 시스템(Version control systems, VCSs)은 소스코드(또는 다른 파일들 혹은 폴더들)의 변화를 추적하기 위해 사용됩니다. VCSs는 이름에서 알 수 있듯이 변경된 사항들의 관리를 도와주며, 더 나아가 협력을 용이하게 합니다. 버전관리 시스템은 폴더와 폴더의 내용물의 변화를 일련의 스냅샷으로 추적하는데, 각각의 스냅샷은 최상위 디렉토리 내 파일과 폴더의 전반적인 상태를 `요약된 형태로 보관(encapsulates)`합니다. 또한 버전관리 시스템은 각 스냅샷의 생성자와 메시지 등의 메타데이터를 관리합니다.
 
-Why is version control useful? Even when you're working by yourself, it can let
-you look at old snapshots of a project, keep a log of why certain changes were
-made, work on parallel branches of development, and much more. When working
-with others, it's an invaluable tool for seeing what other people have changed,
-as well as resolving conflicts in concurrent development.
+버전관리는 어째서 유용할까요? 혼자서 작업할 때엔 프로젝트의 오래된 스냅샷을 보거나, 어떤 변경점이 왜 생성됐는지 로그를 유지할 수 있게 해주며, 동시에 여러 개발 브랜치에서 작업할 수 있게 해주는 등 많은 이유가 있습니다. 또한 다른 이들과 일할 땐 다른 사람들이 무엇을 변경했는지 보거나, 동시에 개발하며 생기는 충돌을 해결하기 위한 매우 귀중한 도구입니다.
 
-Modern VCSs also let you easily (and often automatically) answer questions
-like:
+현대의 버전관리 시스템은 다음과 같은 질문들의 답을 쉽게 (혹은 자동적으로) 알게 해줍니다.
 
-- Who wrote this module?
-- When was this particular line of this particular file edited? By whom? Why
-  was it edited?
-- Over the last 1000 revisions, when/why did a particular unit test stop
-working?
+- 누가 이 모듈을 작성했는가?
+- 특정 파일의 특정 라인은 언제 수정됐는가? 누구에 의해서? 왜 수정되었는가?
+- 지난 1000개의 수정들 중 특정 유닛 테스트가 고장난 건 언제, 누구에 의한 건가?
 
-While other VCSs exist, **Git** is the de facto standard for version control.
+여러 버전관리 시스템이 존재하지만, 사실상 표준은 **Git**이다 
 This [XKCD comic](https://xkcd.com/1597/) captures Git's reputation:
 
 ![xkcd 1597](https://imgs.xkcd.com/comics/git.png)
