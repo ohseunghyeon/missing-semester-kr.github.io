@@ -18,25 +18,18 @@ video:
 - 특정 파일의 특정 라인은 언제 수정됐는가? 누구에 의해서? 왜 수정되었는가?
 - 지난 1000개의 수정들 중 특정 유닛 테스트가 고장난 건 언제, 누구에 의한 건가?
 
-여러 버전관리 시스템이 존재하지만, 사실상 표준은 **Git**이다 
-This [XKCD comic](https://xkcd.com/1597/) captures Git's reputation:
+여러 버전관리 시스템이 존재하지만, 사실상 표준은 **Git**이다.
+이 짤은[XKCD comic](https://xkcd.com/1597/) Git의 명성을 잘 담아냈다.
 
 ![xkcd 1597](https://imgs.xkcd.com/comics/git.png)
 
-Because Git's interface is a leaky abstraction, learning Git top-down (starting
-with its interface / command-line interface) can lead to a lot of confusion.
-It's possible to memorize a handful of commands and think of them as magic
-incantations, and follow the approach in the comic above whenever anything goes
-wrong.
+Git의 인터페이스는 leaky abstraction 이기 때문에, Git을 top-down으로 배우면(인터페이스 / 커맨드-라인 인터페이스로 시작하는 것) 크게 혼란스러울 수 있다.
+몇 가지 유용한 명령어를 기억할 수 있고 이를 마법 주문이라 생각할 수도 있다. 그리고 뭔가가 잘못되면 언제든지 위 만화에서 얘기하는 것처럼 할 수 있다.
+(역자 주- leaky abstraction의 leak은 물 또는 가스가 새는 것을 의미하며 abstraction은 추상/추상화를 의미한다. leaky abstraction은 추상화는 언제나 맹점이 있을 수 있고 )
 
-While Git admittedly has an ugly interface, its underlying design and ideas are
-beautiful. While an ugly interface has to be _memorized_, a beautiful design
-can be _understood_. For this reason, we give a bottom-up explanation of Git,
-starting with its data model and later covering the command-line interface.
-Once the data model is understood, the commands can be better understood, in
-terms of how they manipulate the underlying data model.
+Git이 명백히 못생긴 인터페이스를 지니고 있지만, 그 아래 깔려있는 디자인과 아이디어는 아름답다. 못난 인터페이스는 _기억_ 되어야 하지만, 아름다운 디자인은 _이해_ 될 수 있다. 이런 이유로, 우리는 bottom-up 방식으로, Git의 데이터 모델부터 시작하여 후에는 커맨드-라인 인터페이스를 설명하겠다. 데이터 모델이 이해되고 나면, 명령어가 그 기저에서 어떻게 데이터모델을 조작하는지 더 쉽게 이해할 수 있다.
 
-# Git's data model
+# Git의 데이터 
 
 There are many ad-hoc approaches you could take to version control. Git has a
 well thought-out model that enables all the nice features of version control,
