@@ -30,18 +30,15 @@ Git은 명백히 못난 인터페이스를 지니고 있지만, 그 아래 깔�
 
 # Git의 데이터 
 
-There are many ad-hoc approaches you could take to version control. Git has a
-well thought-out model that enables all the nice features of version control,
-like maintaining history, supporting branches, and enabling collaboration.
+버전관리에 대해서는 여러 접근법이 있습니다. Git은 잘 고안된 데이터 모델을 가지고 있으며, 이는 버전관리의 멋진 기능들인 히스토리를 관리, 브랜치 기능의 지원 그리고 협업을 가능케 합니다.
 
-## Snapshots
+## 스냅샷
 
-Git models the history of a collection of files and folders within some
-top-level directory as a series of snapshots. In Git terminology, a file is
-called a "blob", and it's just a bunch of bytes. A directory is called a
+Git은 어떤 최상위 디렉토리 내에서 파일과 폴더들의 집합의 히스토리를 스냅샷의 연속이라는 형태로 구축합니다. Git에서 하나의 파일은 "blob"으로 불리며, 하나의 바이트 묶음(a bunch of bytes)입니다. 디렉토리는 "tree"라고 불리고, 다른 blob이나 tree에 이름이 매핑됩니다(디렉토리가 다른 디렉토리를 포함할 수 있도록). 스냅샷은 최상위 tree이며 지속적으로 추적됩니다. 예를 들어 다음과 같은 트리가 있다고 합시다.
+
+A directory is called a
 "tree", and it maps names to blobs or trees (so directories can contain other
-directories). A snapshot is the top-level tree that is being tracked. For
-example, we might have a tree as follows:
+directories).
 
 ```
 <root> (tree)
