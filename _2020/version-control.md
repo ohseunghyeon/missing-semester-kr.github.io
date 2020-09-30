@@ -8,37 +8,35 @@ video:
   id: 2sjqTHE0zok
 ---
 
-버전관리 시스템(Version control systems, VCSs)은 소스코드(또는 다른 파일들 혹은 폴더들)의 변화를 추적하기 위해 사용됩니다. VCSs는 이름에서 알 수 있듯이 변경된 사항들의 관리를 도와주며, 더 나아가 협력을 용이하게 합니다. 버전관리 시스템은 폴더와 폴더의 내용물의 변화를 일련의 스냅샷으로 추적하는데, 각각의 스냅샷은 최상위 디렉토리 내 파일과 폴더의 전반적인 상태를 `요약된 형태로 보관(encapsulates)`합니다. 또한 버전관리 시스템은 각 스냅샷의 생성자와 메시지 등의 메타데이터를 관리합니다.
+버전관리 시스템(Version control systems, VCSs)은 소스코드(또는 다른 파일들 혹은 폴더들)의 변화를 추적하기 위해 사용된다. VCSs는 이름에서 알 수 있듯이 변경된 사항들의 관리를 도와주며, 더 나아가 협력을 용이하게 한다. 버전관리 시스템은 폴더와 폴더 내용물의 변화를 일련의 스냅샷으로 추적하는데, 각각의 스냅샷은 최상위 디렉토리 내 파일과 폴더의 전반적인 상태를 `요약된 형태로 보관(encapsulates)`한다. 또한 버전관리 시스템은 각 스냅샷의 생성자와 메시지 등 메타데이터를 관리한다.
 
-버전관리는 어째서 유용할까요? 혼자서 작업할 때엔 프로젝트의 오래된 스냅샷을 보거나, 어떤 변경점이 왜 생성됐는지 로그를 유지할 수 있게 해주며, 동시에 여러 개발 브랜치에서 작업할 수 있게 해주는 등 많은 이유가 있습니다. 또한 다른 이들과 일할 땐 다른 사람들이 무엇을 변경했는지 보거나, 동시에 개발하며 생기는 충돌을 해결하기 위한 매우 귀중한 도구입니다.
+버전관리는 어째서 유용할까? 혼자서 작업할 땐 프로젝트의 예전 스냅샷을 보거나, 어떤 변경점이 왜 생성됐는지 로그를 유지할 수 있게 해주고, 동시에 여러 개발 브랜치에서 작업할 수 있게 해주는 등 많은 이유가 있다. 또한 다른 사람들과 일할 땐 다른 사람들이 무엇을 변경했는지 보거나, 함께 개발하며 생기는 충돌을 해결하기 위한 매우 귀중한 도구이다.
 
-현대의 버전관리 시스템은 다음과 같은 질문들을 쉽게 해결해줍니다.
+현대의 버전관리 시스템은 다음과 같은 질문들을 쉽게 해결해준다.
 
 - 누가 이 모듈을 작성했는가?
 - 특정 파일의 특정 라인은 언제 수정됐는가? 누구에 의해서? 왜 수정되었는가?
 - 지난 1000개의 수정들 중 특정 유닛 테스트가 고장난 건 언제, 누구에 의한 건가?
 
-여러 버전관리 시스템이 존재하지만, 사실상 표준은 **Git**입니다.
-이 만화는[XKCD comic](https://xkcd.com/1597/) Git의 평판을 잘 보여줍니다.
+여러 버전관리 시스템이 존재하지만, 사실상 표준은 **Git**이다.
+이 만화는[XKCD comic](https://xkcd.com/1597/) Git의 평판을 잘 보여준다.
 
 ![xkcd 1597](https://imgs.xkcd.com/comics/git.png)
 
-Git의 인터페이스는 leaky abstraction 이기 때문에, top-down 방식으로 배우면 (인터페이스 / 커맨드-라인 인터페이스로 시작하는 것) 크게 혼란스러울 수 있습니다. 몇 가지 유용한 명령어를 기억하고 이를 마법 주문이라 생각할 수도 있고, 뭔가가 잘못되면 언제든지 위 만화에서 얘기하는 것처럼 프로젝트를 지우고 새로운 복사본을 받을 수 있습니다.
+Git의 인터페이스는 leaky abstraction 이기 때문에, top-down 방식으로 배우면 (인터페이스 / 커맨드-라인 인터페이스로 시작하는 것) 크게 혼란스러울 수 있다. 몇 가지 유용한 명령어를 기억하여 이를 마법 주문이라 생각할 수도 있고, 뭔가가 잘못될 시 언제든지 위 만화에서 얘기하는 것처럼 프로젝트를 지우고 새로운 복사본을 받을 수 있다.
 (역자 주 - leaky abstraction란 추상화는 사용자의 입장에서 사용하기는 쉽지만, 그 기저의 원리를 알지 못하기에 어떤 문제가 발생하면 이를 이해하거나 해결할 수 없음을 의미합니다.)
 
-Git은 명백히 못난 인터페이스를 지니고 있지만, 그 아래 깔려있는 디자인과 아이디어는 아름답습니다. 못난 인터페이스는 _기억_ 해야 하지만, 아름다운 디자인은 _이해_ 할 수 있다. 이런 이유로, 우리는 bottom-up 방식으로, Git의 데이터 모델부터 시작하여 나중에 커맨드-라인 인터페이스를 설명하겠습니다. 데이터 모델을 이해하고 나면, 명령어가 실제로 어떻게 데이터모델을 조작하는지 더 쉽게 이해할 수 있습니다.
+Git은 명백히 못난 인터페이스를 지니고 있지만, 그 아래 깔려있는 디자인과 아이디어는 아름답다. 못난 인터페이스는 _기억_ 해야 하지만, 아름다운 디자인은 _이해_ 할 수 있다. 이런 이유로, 우리는 bottom-up 방식으로, Git의 데이터 모델부터 시작하여 나중에 커맨드-라인 인터페이스를 배우자. 데이터 모델을 이해하고 나면, 명령어가 실제로 어떻게 데이터모델을 조작하는지 더 쉽게 이해할 수 있다.
 
 # Git의 데이터 
 
-버전관리에 대해서는 여러 접근법이 있습니다. Git은 잘 고안된 데이터 모델을 가지고 있으며, 이는 버전관리의 멋진 기능들인 히스토리를 관리, 브랜치 기능의 지원 그리고 협업을 가능케 합니다.
+버전관리에 대해서는 여러 접근법이 있다. Git은 잘 고안된 데이터 모델을 가지고 있으며, 이는 버전관리의 멋진 기능들인 히스토리를 관리, 브랜치 기능의 지원 그리고 협업을 가능케 한다.
 
 ## 스냅샷
 
-Git은 어떤 최상위 디렉토리 내에서 파일과 폴더들의 집합의 히스토리를 스냅샷의 연속이라는 형태로 구축합니다. Git에서 하나의 파일은 "blob"으로 불리며, 하나의 바이트 묶음(a bunch of bytes)입니다. 디렉토리는 "tree"라고 불리고, 다른 blob이나 tree에 이름이 매핑됩니다(디렉토리가 다른 디렉토리를 포함할 수 있도록). 스냅샷은 최상위 tree이며 지속적으로 추적됩니다. 예를 들어 다음과 같은 트리가 있다고 합시다.
+Git은 어떤 최상위 디렉토리 내에서 파일과 폴더들의 집합의 히스토리를 스냅샷의 연속이라는 형태로 구축한다. Git에서 하나의 파일은 "blob"으로 불리며, 하나의 바이트 묶음(a bunch of bytes)이다. 디렉토리는 "tree"라고 불리고, 다른 blob이나 tree에 이름이 매핑된다(디렉토리가 다른 디렉토리를 포함할 수 있도록). 스냅샷은 최상위 tree이며 지속적으로 추적된다. 예를 들어 다음과 같은 트리가 있다고 하자.
 
-A directory is called a
-"tree", and it maps names to blobs or trees (so directories can contain other
-directories).
+A directory is called a "tree", and it maps names to blobs or trees (so directories can contain other directories).
 
 ```
 <root> (tree)
@@ -50,24 +48,15 @@ directories).
 +- baz.txt (blob, contents = "git is wonderful")
 ```
 
-The top-level tree contains two elements, a tree "foo" (that itself contains
-one element, a blob "bar.txt"), and a blob "baz.txt".
+최상위 트리는 두 구성 요소로 이루어져 있다. foo라는 tree와 baz.txt라는 blob이다. (foo는 bar.txt라는 blob 요소를 포함한다)
 
-## Modeling history: relating snapshots
+## 모델링 히스토리: 스냅샷 연결 Modeling history: relating snapshots
 
-How should a version control system relate snapshots? One simple model would be
-to have a linear history. A history would be a list of snapshots in time-order.
-For many reasons, Git doesn't use a simple model like this.
+버전관리 시스템은 어떻게 스냅샷을 연결해야 할까? 한 가지 간단한 모델은 직선 형태의 히스토리를 갖는 것이다. 시간순의 스냅샷 리스트가 히스토리가 되는 것이다. 많은 이유로, Git은 이런 간단한 모델을 사용하지 않는다.
 
-In Git, a history is a directed acyclic graph (DAG) of snapshots. That may
-sound like a fancy math word, but don't be intimidated. All this means is that
-each snapshot in Git refers to a set of "parents", the snapshots that preceded
-it. It's a set of parents rather than a single parent (as would be the case in
-a linear history) because a snapshot might descend from multiple parents, for
-example due to combining (merging) two parallel branches of development.
+Git에서, 히스토리란 스냅샷들의 유향 비순환 그래프(directed acyclic graph (DAG))이다. 어쩌면 이게 수준 높은 수학 용어로 들릴 수 있는데, 겁먹을 필요 없다. 이게 뜻하는 바는, 각각의 스냅샷은 시간상 이전에 발생한 "부모(parents)" 스냅샷의 집합을 바라본다는 것이다. 예를 들어, 두 개의 개발 브랜치를 합치려면(merging) 하나의 스냅샷이 여러 부모로부터 만들어질 수 있어야 하기 때문에, 하나의 부모(위에서 언급한 직선의 히스토리에서 말하는)가 아닌 부모의 집합이 되는 것이다.
 
-Git calls these snapshots "commit"s. Visualizing a commit history might look
-something like this:
+Git에서 이런 스냅샷들을 "커밋(commit)"이라고 부른다. 커밋 히스토리를 시각화하면 다음처럼 보일 수 있다.
 
 ```
 o <-- o <-- o <-- o
@@ -76,14 +65,7 @@ o <-- o <-- o <-- o
               --- o <-- o
 ```
 
-In the ASCII art above, the `o`s correspond to individual commits (snapshots).
-The arrows point to the parent of each commit (it's a "comes before" relation,
-not "comes after"). After the third commit, the history branches into two
-separate branches. This might correspond to, for example, two separate features
-being developed in parallel, independently from each other. In the future,
-these branches may be merged to create a new snapshot that incorporates both of
-the features, producing a new history that looks like this, with the newly
-created merge commit shown in bold:
+위의 아스키 그림에서, 'o'는 각각의 커밋(스냅샷)이다. 화살표는 각 커밋의 부모를 향한다(화살표가 향하는 방향이 이후가 아닌 이전을 뜻한다). 세 번째 커밋 이후에, 히스토리는 두 개의 분리된 브랜치가 된다. 이는 두개의 분리된 기능이 동시에 그리고 독립적으로 개발되고 있음을 뜻한다. 이후에 이 브랜치들이 병합(merged)되고 하나의 새로운 스냅샷이 되어, 두 기능을 통합할 수 있다. 새로운 히스토리가 만들어지는 건 다음에 나올 그림과 같으며, 새로 만들어진 병합 커밋은 굵은 'o'로 확인할 수 있다.
 
 <pre>
 o <-- o <-- o <-- o <---- <strong>o</strong>
