@@ -74,23 +74,20 @@ o <-- o <-- o <-- o <---- <strong>o</strong>
               --- o <-- o
 </pre>
 
-Commits in Git are immutable. This doesn't mean that mistakes can't be
-corrected, however; it's just that "edits" to the commit history are actually
-creating entirely new commits, and references (see below) are updated to point
-to the new ones.
+Git에서 커밋은 불변이다(immutable). 실수가 고쳐질 수 없다는 뜻은 아니지만, 커밋 히스토리를 수정한다는 건 실제로는 완전히 새로운 커밋들을 만드는 것이고, 새로운 커밋들로 참조가 수정된다는 것이다.
 
-## Data model, as pseudocode
+## 의사코드(pseudocode)로 보는 데이터 모델
 
-It may be instructive to see Git's data model written down in pseudocode:
+의사코드로 작성된 Git의 데이터 모델을 보면 도움이 될 것이다. 
 
 ```
-// a file is a bunch of bytes
+// 파일은 바이트 묶음이다
 type blob = array<byte>
 
-// a directory contains named files and directories
+// 디렉토리는 파일과 디렉토리를 포함한다
 type tree = map<string, tree | blob>
 
-// a commit has parents, metadata, and the top-level tree
+// 커밋은 부모, 메타데이터, 최상위 트리로 이루어진다
 type commit = struct {
     parent: array<commit>
     author: string
@@ -99,18 +96,18 @@ type commit = struct {
 }
 ```
 
-It's a clean, simple model of history.
+이는 깔끔하고 단순한 히스토리 모델이다.
 
-## Objects and content-addressing
+## 객체(objects)와 주소 지정
 
-An "object" is a blob, tree, or commit:
+하나의 "객체(object)"는 blob이나 tree 혹은 commit이다:
 
 ```
 type object = blob | tree | commit
 ```
 
-In Git data store, all objects are content-addressed by their [SHA-1
-hash](https://en.wikipedia.org/wiki/SHA-1).
+Git의 데이터 스토어에서, 모든 객체는 그 객체의 [SHA-1
+hash](https://en.wikipedia.org/wiki/SHA-1)를 가지고 주소가 지정된다.
 
 ```
 objects = map<string, object>
@@ -123,6 +120,7 @@ def load(id):
     return objects[id]
 ```
 
+blob과 tree 그리고 커밋은 
 Blobs, trees, and commits are unified in this way: they are all objects. When
 they reference other objects, they don't actually _contain_ them in their
 on-disk representation, but have a reference to them by their hash.
