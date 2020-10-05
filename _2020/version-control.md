@@ -106,8 +106,7 @@ type commit = struct {
 type object = blob | tree | commit
 ```
 
-Git의 데이터 스토어에서, 모든 객체는 그 객체의 [SHA-1
-hash](https://en.wikipedia.org/wiki/SHA-1)를 가지고 주소가 지정된다.
+Git의 데이터 스토어에서, 모든 객체는 그 객체의 [SHA-1 hash](https://en.wikipedia.org/wiki/SHA-1)를 가지고 주소가 지정된다.
 
 ```
 objects = map<string, object>
@@ -120,24 +119,16 @@ def load(id):
     return objects[id]
 ```
 
-blob과 tree 그리고 커밋은 
-Blobs, trees, and commits are unified in this way: they are all objects. When
-they reference other objects, they don't actually _contain_ them in their
-on-disk representation, but have a reference to them by their hash.
+blob과 tree 그리고 커밋은 모두 오브젝트라는 공통점을 가지고 있다. 이 세 오브젝트가 다른 오브젝트를 참조할 때, 실제로 디스크상의 그 데이터를 _포함_하는 게 아니라, 해쉬값을 참조한다.
 
-For example, the tree for the example directory structure [above](#snapshots)
-(visualized using `git cat-file -p 698281bc680d1995c5f4caaf3359721a5a58d48d`),
-looks like this:
+[위에](#snapshots)(visualized using `git cat-file -p 698281bc680d1995c5f4caaf3359721a5a58d48d`) 있는 directory 구조의 tree를 예로 들면 다음과 같다.
 
 ```
 100644 blob 4448adbf7ecd394f42ae135bbeed9676e894af85    baz.txt
 040000 tree c68d233a33c5c06e0340e4c224f0afca87c8ce87    foo
 ```
 
-The tree itself contains pointers to its contents, `baz.txt` (a blob) and `foo`
-(a tree). If we look at the contents addressed by the hash corresponding to
-baz.txt with `git cat-file -p 4448adbf7ecd394f42ae135bbeed9676e894af85`, we get
-the following:
+tree는 `baz.txt` (a blobk) 과 'foo' (a tree)의 포인터를 갖는다. 만약 다음 명령어 `git cat-file -p 4448adbf7ecd394f42ae135bbeed9676e894af85`를 사용하여 baz.txt의 내용을 살펴보면 다음과 같다.
 
 ```
 git is wonderful
