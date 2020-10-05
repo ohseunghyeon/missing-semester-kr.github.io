@@ -134,16 +134,11 @@ tree는 `baz.txt` (a blobk) 과 'foo' (a tree)의 포인터를 갖는다. 만약
 git is wonderful
 ```
 
-## References
+## 참조
 
-Now, all snapshots can be identified by their SHA-1 hash. That's inconvenient,
-because humans aren't good at remembering strings of 40 hexadecimal characters.
+이제, 모든 스냅샷은 그 스냅샷의 SHA-1 hash로 식별될 수 있다. 이는 불편하다. 왜냐면 사람은 16진수 문자열 40자를 외우는 데 능하지 않기 때문이다.
 
-Git's solution to this problem is human-readable names for SHA-1 hashes, called
-"references". References are pointers to commits. Unlike objects, which are
-immutable, references are mutable (can be updated to point to a new commit).
-For example, the `master` reference usually points to the latest commit in the
-main branch of development.
+이 문제에 대한 Git의 해결은 SHA-1 hashes를 위한 사람이 읽을 수 있는 이름을 짓고 "참조"라고 부르는 것이다. 참조는 커밋을 가리키는 포인터이다. 불변인 오브젝트와 달리 참조는 변할 수 있다 (새로운 커밋을 가리키도록 수정될 수 있다). 예를 들어 `master`라는 참조는 보통 메인 개발 브랜치의 가장 최신 커밋을 가리킨다.
 
 ```
 references = map<string, string>
@@ -161,8 +156,7 @@ def load_reference(name_or_id):
         return load(name_or_id)
 ```
 
-With this, Git can use human-readable names like "master" to refer to a
-particular snapshot in the history, instead of a long hexadecimal string.
+이를 사용하여 Git은 히스토리 상의 특정 스냅샷을 가리키기 위해 하나의 긴 16진수 문자열이 아닌 사람이 읽을 수 있는 이름("master"와 같은)을 사용할 수 있다.
 
 One detail is that we often want a notion of "where we currently are" in the
 history, so that when we take a new snapshot, we know what it is relative to
