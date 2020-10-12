@@ -54,7 +54,7 @@ A directory is called a "tree", and it maps names to blobs or trees (so director
 
 버전관리 시스템은 어떻게 스냅샷을 연결해야 할까? 한 가지 간단한 모델은 직선 형태의 히스토리를 갖는 것이다. 시간순의 스냅샷 리스트가 히스토리가 되는 것이다. 많은 이유로, Git은 이런 간단한 모델을 사용하지 않는다.
 
-Git에서, 히스토리란 스냅샷들의 유향 비순환 그래프(directed acyclic graph (DAG))이다. 어쩌면 이게 수준 높은 수학 용어로 들릴 수 있는데, 겁먹을 필요 없다. 이게 뜻하는 바는, 각각의 스냅샷은 시간상 이전에 발생한 "부모(parents)" 스냅샷의 집합을 바라본다는 것이다. 예를 들어, 두 개의 개발 브랜치를 합치려면(merging) 하나의 스냅샷이 여러 부모로부터 만들어질 수 있어야 하기 때문에, 하나의 부모(위에서 언급한 직선의 히스토리에서 말하는)가 아닌 부모의 집합이 되는 것이다.
+Git에서, 히스토리란 스냅샷들의 유향 비순환 그래프(directed acyclic graph: DAG)이다. 어쩌면 이게 수준 높은 수학 용어로 들릴 수 있는데, 겁먹을 필요 없다. 이게 뜻하는 바는, 각각의 스냅샷은 시간상 이전에 발생한 "부모(parents)" 스냅샷의 집합을 바라본다는 것이다. 예를 들어, 두 개의 개발 브랜치를 합치려면(merging) 하나의 스냅샷이 여러 부모로부터 만들어질 수 있어야 하기 때문에, 하나의 부모(위에서 언급한 직선의 히스토리에서 말하는)가 아닌 부모의 집합이 되는 것이다.
 
 Git에서 이런 스냅샷들을 "커밋(commit)"이라고 부른다. 커밋 히스토리를 시각화하면 다음처럼 보일 수 있다.
 
@@ -136,9 +136,9 @@ git is wonderful
 
 ## 참조
 
-이제, 모든 스냅샷은 그 스냅샷의 SHA-1 hash로 식별될 수 있다. 이는 불편하다. 왜냐면 사람은 16진수 문자열 40자를 외우는 데 능하지 않기 때문이다.
+이제, 모든 스냅샷은 그 스냅샷의 SHA-1 hash로 식별될 수 있다. 이는 불편하다. 사람은 16진수 문자열 40자를 외우는 데 능하지 않기 때문이다.
 
-이 문제에 대한 Git의 해결은 SHA-1 hashes를 위한 사람이 읽을 수 있는 이름을 짓고 "참조"라고 부르는 것이다. 참조는 커밋을 가리키는 포인터이다. 불변인 오브젝트와 달리 참조는 변할 수 있다 (새로운 커밋을 가리키도록 수정될 수 있다). 예를 들어 `master`라는 참조는 보통 메인 개발 브랜치의 가장 최신 커밋을 가리킨다.
+이 문제에 대한 Git의 해결법은, SHA-1 hashes에 사람이 읽을 수 있는 이름을 짓고 "참조"라고 부르는 것이다. 참조는 커밋을 가리키는 포인터이다. 불변인 오브젝트와 달리 참조는 변할 수 있다 (새로운 커밋을 가리키도록 수정될 수 있다). 예를 들어 `master`라는 참조는 보통 메인 개발 브랜치의 가장 최신 커밋을 가리킨다.
 
 ```
 references = map<string, string>
@@ -158,26 +158,19 @@ def load_reference(name_or_id):
 
 이를 사용하여 Git은 히스토리 상의 특정 스냅샷을 가리키기 위해 하나의 긴 16진수 문자열이 아닌 사람이 읽을 수 있는 이름("master"와 같은)을 사용할 수 있다.
 
+
 One detail is that we often want a notion of "where we currently are" in the
 history, so that when we take a new snapshot, we know what it is relative to
 (how we set the `parents` field of the commit). In Git, that "where we
 currently are" is a special reference called "HEAD".
 
-## Repositories
+## Repositories (저장소)
 
-Finally, we can define what (roughly) is a Git _repository_: it is the data
-`objects` and `references`.
+마침내, 우리는 (대충) Git _리포지토리_가 무엇인지 정의할 수 있다. 'objects'와 'references'인 데이터다.
 
-On disk, all Git stores are objects and references: that's all there is to Git's
-data model. All `git` commands map to some manipulation of the commit DAG by
-adding objects and adding/updating references.
+디스크 상에서, Git이 저장하는 건 모두 objects나 references이고, 이게 Git의 데이터 모델에 대한 전부이다. 모든 `git` 명령어는 objects를 추가하거나 references를 추가/수정하여 커밋 DAG를 조작하는 것이다.
 
-Whenever you're typing in any command, think about what manipulation the
-command is making to the underlying graph data structure. Conversely, if you're
-trying to make a particular kind of change to the commit DAG, e.g. "discard
-uncommitted changes and make the 'master' ref point to commit `5d83f9e`", there's
-probably a command to do it (e.g. in this case, `git checkout master; git reset
---hard 5d83f9e`).
+어떤 명령어든 실행할 때마다, 해당 명령어가 그래프 데이터 구조 상에서는 어떤 조작을 할지 생각해 봐라. 반대로, 네가 커밋 DAG에 특정한 조작을 가하려고 한다면(예를 들어, "커밋되지 않은 변경 사항을 무시하고, 'master' ref가 커밋 `5d83f9e`를 가리키게 해라"), 분명 이를 위한 명령어가 있을 것이다. (이 경우에는 `git checkout master; git reset --hard 5d83f9e`이다).
 
 # Staging area
 
