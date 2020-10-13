@@ -174,20 +174,10 @@ currently are" is a special reference called "HEAD".
 
 # Staging area
 
-This is another concept that's orthogonal to the data model, but it's a part of
-the interface to create commits.
+스테이징 영역은 데이터 모델과는 다른 컨셉이지만, 커밋을 생성하는 인터페이스의 일부이다
 
-One way you might imagine implementing snapshotting as described above is to have
-a "create snapshot" command that creates a new snapshot based on the _current
-state_ of the working directory. Some version control tools work like this, but
-not Git. We want clean snapshots, and it might not always be ideal to make a
-snapshot from the current state. For example, imagine a scenario where you've
-implemented two separate features, and you want to create two separate commits,
-where the first introduces the first feature, and the next introduces the
-second feature. Or imagine a scenario where you have debugging print statements
-added all over your code, along with a bugfix; you want to commit the bugfix
-while discarding all the print statements.
-
+위에 기술한대로 스냅샷을 구현한다고 가정하자. 한 가지 방법은, working directory의 _현재 상태_에 기반하여 새로운 스냅샷을 생성하는 "create snapshot" 커맨드를 만드는 것이다.  어떤 버전관리 도구는 그렇게 작동하지만, Git은 아니다. 우리는 깨끗한 스냅샷을 원하고, 현재의 상태를 가지고 스냅샷을 만드는 건 이상적이지 않다. 예를 들어서, 네가 두 가지 분리된 기능을 개발했다고 하자. 그러면 각각의 기능을 분리하여 두 개의 분리된 커밋을 만들고 싶을 것이다. 아니면 또 다른 예로, 디버그를 위한 로그가 코듭 전반에 더해졌고, 버그를 수정한 부분도 함께 있다고 하자. 그럼 버그를 수정한 부분만 커밋하고, 디버깅용 로그들은 다 없애고 싶을 것이다.
+ 
 Git accommodates such scenarios by allowing you to specify which modifications
 should be included in the next snapshot through a mechanism called the "staging
 area".
