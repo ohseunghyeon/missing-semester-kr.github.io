@@ -177,23 +177,18 @@ currently are" is a special reference called "HEAD".
 스테이징 영역은 데이터 모델과는 다른 컨셉이지만, 커밋을 생성하는 인터페이스의 일부이다
 
 위에 기술한대로 스냅샷을 구현한다고 가정하자. 한 가지 방법은, working directory의 _현재 상태_에 기반하여 새로운 스냅샷을 생성하는 "create snapshot" 커맨드를 만드는 것이다.  어떤 버전관리 도구는 그렇게 작동하지만, Git은 아니다. 우리는 깨끗한 스냅샷을 원하고, 현재의 상태를 가지고 스냅샷을 만드는 건 이상적이지 않다. 예를 들어서, 네가 두 가지 분리된 기능을 개발했다고 하자. 그러면 각각의 기능을 분리하여 두 개의 분리된 커밋을 만들고 싶을 것이다. 아니면 또 다른 예로, 디버그를 위한 로그가 코듭 전반에 더해졌고, 버그를 수정한 부분도 함께 있다고 하자. 그럼 버그를 수정한 부분만 커밋하고, 디버깅용 로그들은 다 없애고 싶을 것이다.
- 
-Git accommodates such scenarios by allowing you to specify which modifications
-should be included in the next snapshot through a mechanism called the "staging
-area".
+
+Git은 "스테이징 영역"이라고 불리는 메카니즘을 통해 다음 스냅샷에 어떤 변경사항 포함되어야 할지 정할 수 있게 하여 이러한 시나리오가 가능케 한다.
 
 # Git command-line interface
 
-To avoid duplicating information, we're not going to explain the commands below
-in detail. See the highly recommended [Pro Git](https://git-scm.com/book/en/v2)
-for more information, or watch the lecture video.
+중복되는 정보를 피하기 위해서, 아래의 명령어를 상세하게 설명하지 않겠다. 더 이상의 정보를 위해서는 [Pro Git](https://git-scm.com/book/en/v2)를 매우 추천하며 혹은 강의 동영상을 봐라.
 
 ## Basics
 
 {% comment %}
 
-The `git init` command initializes a new Git repository, with repository
-metadata being stored in the `.git` directory:
+`git init` 명령어는 새로운 깃 저장소를 초기화하고, `.git` 디렉토리 안에 저장소 메타데이터를 저장한다:
 
 ```console
 $ mkdir myproject
@@ -208,8 +203,7 @@ No commits yet
 nothing to commit (create/copy files and use "git add" to track)
 ```
 
-How do we interpret this output? "No commits yet" basically means our version
-history is empty. Let's fix that.
+위 출력을 어떻게 해석할까? "No commits yet(커밋이 없다)"는 기본적으로 우리 버전 히스토리가 비어있다는 뜻이다. 이를 고쳐보자.
 
 ```console
 $ echo "hello, git" > hello.txt
