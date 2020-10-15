@@ -182,7 +182,7 @@ Git은 "스테이징 영역"이라고 불리는 메카니즘을 통해 다음 �
 
 # Git command-line interface
 
-중복되는 정보를 피하기 위해서, 아래의 명령어를 상세하게 설명하지 않겠다. 더 이상의 정보를 위해서는 [Pro Git](https://git-scm.com/book/en/v2)를 매우 추천하며 혹은 강의 동영상을 봐라.
+중복되는 정보를 피하기 위해서, 아래의 명령어를 상세하게 설명하지 않겠다. 더 이상의 정보를 위해서는 [Pro Git](https://git-scm.com/book/en/v2)를 매우 추천하며 혹은 동영상 강의를 봐라.
 
 ## Basics
 
@@ -224,20 +224,11 @@ $ git commit -m 'Initial commit'
  create mode 100644 hello.txt
 ```
 
-With this, we've `git add`ed a file to the staging area, and then `git
-commit`ed that change, adding a simple commit message "Initial commit". If we
-didn't specify a `-m` option, Git would open our text editor to allow us type a
-commit message.
+이렇게, `git add`를 해서 파일 하나를 스테이징 영역에 추가했다. 그리고 변경사항을 `git commit` 했고, "Initial commit"이라는 간단한 커밋 메시지를 넣었다. 만약 `-m` 옵션을 넣지 않았다면, Git은 텍스트 편집기를 열어서 우리가 커밋 메시지를 칠 수 있게 했을 것이다.
 
-Now that we have a non-empty version history, we can visualize the history.
-Visualizing the history as a DAG can be especially helpful in understanding the
-current status of the repo and connecting it with your understanding of the Git
-data model.
+이제 우리는 비어있찌 않은 버전 히스토리가 있고, 이를 시각화할 수 있다. 히스토리를 DAG로 시각화하는 것은 너의 Git 데이터 모델에 대한 이해와 더불어 저장소의 현재 상태를 이해하는 데 특히 도움이 될 수 있다.
 
-The `git log` command visualizes history. By default, it shows a flattened
-version, which hides the graph structure. If you use a command like `git log
---all --graph --decorate`, it will show you the full version history of the
-repository, visualized in graph form.
+`git log` 명령어는 히스토리를 시각화한다. 기본적으로는 평평하게 처리된 버전을 보여주며, 그래프 구조는 숨긴다. `git log --all --graph --decorate` 같은 명령어를 사용하면 그래프 형태로 시각화된 전체 저장소 버전 히스토리를 보여준다.
 
 ```console
 $ git log --all --graph --decorate
@@ -248,9 +239,7 @@ $ git log --all --graph --decorate
       Initial commit
 ```
 
-This doesn't look all that graph-like, because it only contains a single node.
-Let's make some more changes, author a new commit, and visualize the history
-once more.
+이는 전혀 그래프처럼 보이지 않는다. 왜냐면 단일 노드만 존재하기 때문이다. 다른 변경사항을 만들고 커밋을 하고, 한 번 더 시각화를 해보자.
 
 ```console
 $ echo "another line" >> hello.txt
@@ -276,7 +265,7 @@ $ git commit -m 'Add a line'
  1 file changed, 1 insertion(+)
 ```
 
-Now, if we visualize the history again, we'll see some of the graph structure:
+이제 히스토리를 시각화하면, 그래프를 볼 수 있다.
 
 ```
 * commit 35f60a825be0106036dd2fbc7657598eb7b04c67 (HEAD -> master)
@@ -292,10 +281,9 @@ Now, if we visualize the history again, we'll see some of the graph structure:
       Initial commit
 ```
 
-Also, note that it shows the current HEAD, along with the current branch
-(master).
+여기서 현재 브랜치(master)의 HEAD가 보인다는 점을 주목해라, 
 
-We can look at old versions using the `git checkout` command.
+`git checkout` 명령어를 사용하여 예전 버전을 살펴볼 수도 있다.
 
 ```console
 $ git checkout 4515d17  # previous commit hash; yours will be different
@@ -321,8 +309,7 @@ hello, git
 another line
 ```
 
-Git can show you how files have evolved (differences, or diffs) using the `git
-diff` command:
+`git diff` 명령어를 사용하면 변경사항(differences, or diffs)을 확인할 수 있다
 
 ```console
 $ git diff 4515d17 hello.txt
