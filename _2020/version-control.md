@@ -324,18 +324,18 @@ index 94bab17..f0013b2 100644
 
 {% endcomment %}
 
-- `git help <command>`: get help for a git command
-- `git init`: creates a new git repo, with data stored in the `.git` directory
-- `git status`: tells you what's going on
-- `git add <filename>`: adds files to staging area
-- `git commit`: creates a new commit
-    - Write [good commit messages](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)!
-    - Even more reasons to write [good commit messages](https://chris.beams.io/posts/git-commit/)!
-- `git log`: shows a flattened log of history
-- `git log --all --graph --decorate`: visualizes history as a DAG
-- `git diff <filename>`: show differences since the last commit
-- `git diff <revision> <filename>`: shows differences in a file between snapshots
-- `git checkout <revision>`: updates HEAD and current branch
+- `git help <command>`: Git 명령어 도움말 보기
+- `git init`: 새로운 git 저장소 생성하고 데이터를 `.git` 디렉토리에 저장
+- `git status`: 현 상황을 알려준다
+- `git add <filename>`: 스테이징 영역에 파일을 추가한다
+- `git commit`: 새로운 커밋을 만든다
+    - [좋은 커밋 메시지를](https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) 써라!
+    - [좋은 커밋 메시지를](https://chris.beams.io/posts/git-commit/) 쓸 더 많은 이유!
+- `git log`: 단조로운 버전의 git 히스토리 보기
+- `git log --all --graph --decorate`: 히스토리를 DAG로 시각화하기
+- `git diff <filename>`: 지난 커밋에서부터의 차이점 보기
+- `git diff <revision> <filename>`: 스냅샷 간의 차이점 보기
+- `git checkout <revision>`: HEAD와 현재 브랜치를 변경하기
 
 ## Branching and merging
 
