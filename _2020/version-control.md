@@ -158,11 +158,8 @@ def load_reference(name_or_id):
 
 이를 사용하여 Git은 히스토리 상의 특정 스냅샷을 가리키기 위해 하나의 긴 16진수 문자열이 아닌 사람이 읽을 수 있는 이름("master"와 같은)을 사용할 수 있다.
 
+한 가지 세부 사항으로, 우리는 가끔 히스토리 상에서 "현재 우리가 어디에 있는지" 알고 싶다, 그럼으로써 새로운 스냅샷을 만들 때 무엇과 관계가 있는지 안다(우리가 어떻게 그 커밋의 `부모` 필드를 설정하는지). Git에서 그 "우리가 현재 어디에 있나" 는 "HEAD"라는 특별한 참조이다.
 
-One detail is that we often want a notion of "where we currently are" in the
-history, so that when we take a new snapshot, we know what it is relative to
-(how we set the `parents` field of the commit). In Git, that "where we
-currently are" is a special reference called "HEAD".
 
 ## Repositories (저장소)
 
@@ -341,10 +338,7 @@ index 94bab17..f0013b2 100644
 
 {% comment %}
 
-Branching allows you to "fork" version history. It can be helpful for working
-on independent features or bug fixes in parallel. The `git branch` command can
-be used to create new branches; `git checkout -b <branch name>` creates and
-branch and checks it out.
+브랜치를 생성하면 버전 히스토리를 "fork" 할 수 있다. 이는 독립적인 기능을 만들거나 버그 수정을 동시에 하기 위해 매우 요긴한 기능이다. `git branch` 명령어는 새로운 브랜치를 생성하는 데 쓰인다. `git checkout -b <branch name>`은 브랜치를 생성하고 해당 브랜치로 체크아웃 한다.
 
 Merging is the opposite of branching: it allows you to combine forked version
 histories, e.g. merging a feature branch back into master. The `git merge`
